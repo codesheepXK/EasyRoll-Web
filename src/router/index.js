@@ -5,6 +5,13 @@ const routes = [
     path: '/',
     component: () =>
       import ('../views/index.vue'),
+    children:[
+      {
+        path:'/newResult',
+        component: ()=>
+          import('../views/newResult.vue')
+      }
+    ]
   }
 ]
 
