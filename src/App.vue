@@ -10,5 +10,6 @@
 *{
   -webkit-user-drag:none;
   user-select: none;
+  box-sizing: border-box;
 }
 </style>
