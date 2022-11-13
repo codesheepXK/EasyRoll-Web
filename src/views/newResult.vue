@@ -10,26 +10,50 @@
         />
     </el-select>
   </div>
-  <div class="tableBox">
-    <el-table :data="tableData" style="width: 90%" border :header-cell-style="headerStyle" :cell-style="{borderColor:'#000'}">
-        <el-table-column prop="date" label="课程" />
-        <el-table-column label="教室"/>
-        <el-table-column prop="name" label="任课老师"  />
-        <el-table-column label="缺课"/>
-        <el-table-column label="缺课名单"/>
-        <el-table-column label="迟到"/>
-        <el-table-column label="迟到名单"/>
-        <el-table-column label="请假"/>
-        <el-table-column label="请假名单"/>
-    </el-table>
+  <div class="tableBox" >
+    <div class="table"  v-for="(table,index) in tableData" :key="index">
+        <el-table :data="table" style="width: 90%" border :header-cell-style="headerStyle" :cell-style="{borderColor:'#000'}">
+          <el-table-column prop="courseName" label="课程" align="center" />
+          <el-table-column prop="classroomNo" label="教室" align="center" />
+          <el-table-column prop="professorName" label="任课老师"   align="center" />
+          <el-table-column prop="absenceNum" label="缺课" width="100px" align="center" />
+          <el-table-column prop="absenceList" label="缺课名单" align="center" >
+            <template #default="scope">
+              <ul>
+                <li v-for="(item,index) in scope.row.absenceList" :key="index">
+                  <span>{{item}}</span>
+                </li>
+              </ul>
+            </template>
+          </el-table-column>
+          <el-table-column prop="lateNum" label="迟到" width="100px" align="center" />
+          <el-table-column prop="lateList" label="迟到名单" align="center" >
+            <template #default="scope">
+              <ul>
+                <li v-for="(item,index) in scope.row.lateList" :key="index">
+                  <span>{{item}}</span>
+                </li>
+              </ul>
+            </template>
+          </el-table-column>
+          <el-table-column prop="leaveNum" label="请假" width="100px" align="center" />
+          <el-table-column prop="leaveList" label="请假名单" align="center">
+            <template #default="scope">
+              <ul>
+                <li v-for="(item,index) in scope.row.leaveList" :key="index">
+                  <span>{{item}}</span>
+                </li>
+              </ul>
+            </template>
+          </el-table-column>
+      </el-table>
+    </div>
   </div>
 </template>
 
 <script  setup>
 import { ref,reactive } from 'vue'
-
 const value = ref('Option1')
-
 const options = [
   {
     value: 'Option1',
@@ -47,18 +71,55 @@ const options = [
     value: 'Option4',
     label: '日期选择',
   },
-  {
-    value: 'Option5',
-    label: 'Option5',
-  },
 ]
 const headerStyle = reactive({
     "text-align":"center",
     "font-weight":"bold",
     "color":"#000",
     "background-color":"rgb(232,232,232)",
-    "border":"1px solid #000"
+    "border-color":"#000"
 })
+const tableData=reactive([
+  [
+    {
+      "courseName":"软件工程",
+      "classroomNo":"07307",
+      "professorName":"Kex",
+      "absenceNum":"2",
+      "absenceList":["aaa","bbb"],
+      "lateNum":"2",
+      "lateList":["ccc","ddd"],
+      "leaveNum":"2",
+      "leaveList":["eee","fff"]
+    },
+  ],
+  [
+    {
+      "courseName":"软件工程",
+      "classroomNo":"07307",
+      "professorName":"Kex",
+      "absenceNum":"2",
+      "absenceList":["aaa","bbb"],
+      "lateNum":"2",
+      "lateList":["ccc","ddd"],
+      "leaveNum":"2",
+      "leaveList":["eee","fff"]
+    },
+  ],
+  [
+    {
+      "courseName":"软件工程",
+      "classroomNo":"07307",
+      "professorName":"Kex",
+      "absenceNum":"2",
+      "absenceList":["aaa","bbb"],
+      "lateNum":"2",
+      "lateList":["ccc","ddd","ggg","hhh"],
+      "leaveNum":"2",
+      "leaveList":["eee","fff"]
+    },
+  ],
+])
 </script>
 
 <style lang="scss" scoped>
@@ -83,9 +144,15 @@ const headerStyle = reactive({
     &::-webkit-scrollbar{
          display:none
     }
-    .el-table{
+    .table{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      .el-table{
         margin:20px 0px; 
         border: solid 1px #000;
+      }
     }
 }
 </style>
