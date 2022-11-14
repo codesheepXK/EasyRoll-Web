@@ -12,7 +12,11 @@
   </div>
   <div class="tableBox" >
     <div class="table"  v-for="(table,index) in tableData" :key="index">
-        <el-table :data="table" style="width: 90%" border :header-cell-style="headerStyle" :cell-style="{borderColor:'#000'}">
+        <el-table :data="table" style="width: 90%" border  height='250'
+          :header-cell-style="headerStyle" 
+          :cell-style="{borderColor:'#000'}"
+          :row-style="{height: '200px'}"
+        >
           <el-table-column prop="courseName" label="课程" align="center" />
           <el-table-column prop="classroomNo" label="教室" align="center" />
           <el-table-column prop="professorName" label="任课老师"   align="center" />
@@ -77,7 +81,8 @@ const headerStyle = reactive({
     "font-weight":"bold",
     "color":"#000",
     "background-color":"rgb(232,232,232)",
-    "border-color":"#000"
+    "border-color":"#000",
+    "height":"50px"
 })
 const tableData=reactive([
   [
@@ -114,7 +119,7 @@ const tableData=reactive([
       "absenceNum":"2",
       "absenceList":["aaa","bbb"],
       "lateNum":"2",
-      "lateList":["ccc","ddd","ggg","hhh"],
+      "lateList":["ccc","ddd"],
       "leaveNum":"2",
       "leaveList":["eee","fff"]
     },
@@ -141,9 +146,9 @@ const tableData=reactive([
     width:100%;
     height: 80vh;
     overflow: auto;
-    &::-webkit-scrollbar{
-         display:none
-    }
+    // &::-webkit-scrollbar{
+    //      display:none
+    // }
     .table{
       display: flex;
       justify-content: center;

@@ -14,6 +14,16 @@ const routes = [
         path:'/newResult',
         component: ()=>
           import('../views/newResult.vue')
+      },
+      {
+        path:'/dataOut',
+        component: ()=>
+          import('../views/dataOut.vue')
+      },
+      {
+        path:'/showData',
+        component: ()=>
+          import('../views/showData.vue')
       }
     ]
   }
