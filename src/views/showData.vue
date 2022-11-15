@@ -1,7 +1,7 @@
 
 <template>
     <div class="showBox">
-        <el-table :data="tableData" border style="width: 45%; height:39vh " 
+        <el-table :data="tableData"  border style="width: 45%; height:39vh"  
             :header-cell-style="headerStyle" 
             :cell-style="{borderColor:'#000'}"
         >
@@ -94,6 +94,10 @@ export default {
             if (chart) {
                 const myChart = echarts.init(chart)
                 const option = {
+                    title:{
+                        text: '班级情况',
+                        // left: 'center'
+                    },
                     tooltip: {
                         trigger: 'axis',
                         axisPointer: {
@@ -146,7 +150,7 @@ export default {
                 const option = {
                     title: {
                         text: '总体情况',
-                        left: 'center'
+                        // left: 'center'
                     },
                     tooltip: {
                         trigger: 'item',
@@ -174,9 +178,6 @@ export default {
             } 
         }
     },
-    watch: {},
-    created(){
-    }
 }
 </script>
   
