@@ -1,7 +1,7 @@
 <template>
    <div class="header">
     <h1>数据导出</h1>
-        <el-select v-model="way"  placeholder="Select" size="large" @click="funtion1">
+        <el-select v-model="way"  placeholder="Select" size="large" >
             <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -75,9 +75,7 @@ const classData = reactive([
 
     }
 ])
-const funtion1 = ()=>{
-    alert("dqwd")
-}
+
 </script>
 
 <style lang="scss" scoped>
