@@ -3,7 +3,7 @@
     <div class="showBox">
         <div class="box box1">
             <h1>缺课次数</h1>
-            <el-table :data="tableData"  border style="width: 95%; height:32.5vh"  
+            <el-table :data="classData"  border style="width: 95%; height:32.5vh"  
                 :header-cell-style="headerStyle" 
                 :cell-style="{borderColor:'#000'}"
             >
@@ -19,14 +19,14 @@
         </div>
         <div class="box box3">
             <h1>课程情况</h1>
-            <el-table :data="tableData" border style="width: 95%; height:32.5vh" 
+            <el-table :data="courseData" border style="width: 95%; height:32.5vh" 
                 :header-cell-style="headerStyle" 
                 :cell-style="{borderColor:'#000'}"
             >
-                <el-table-column prop="className" label="班级" align="center"/>
-                <el-table-column prop="no" label="学号" align="center"/>
-                <el-table-column prop="name" label="姓名" align="center"/>
-                <el-table-column prop="lateNum" label="缺课次数" align="center"/>
+                <el-table-column prop="courseName" label="课程" align="center"/>
+                <el-table-column prop="teacher" label="任课老师" align="center"/>
+                <el-table-column prop="time" label="课程时间" align="center"/>
+                <el-table-column prop="absenceNum" label="缺课人数" align="center"/>
             </el-table>
         </div>
         <div class="box box4">、
@@ -42,48 +42,80 @@ import * as echarts from 'echarts';
 export default {
     data() {
         return{
-            tableData:[
+            classData:[
                 {
                     className: '计算机1班',
                     no: '',
                     name: '',
-                    lateNum: 0,
+                    lateNum: '',
                 },
                 {
                     className: '计算机2班',
                     no: '',
                     name: '',
-                    lateNum: 0,
+                    lateNum: '',
                 },
                 {
                     className: '计算机3班',
                     no: '',
                     name: '',
-                    lateNum: 0,
+                    lateNum: '',
                 },
                 {
                     className: '计算机4班',
                     no: '',
                     name: '',
-                    lateNum: 0,
+                    lateNum: '',
                 },
                 {
                     className: '计算机5班',
                     no: '',
                     name: '',
-                    lateNum: 0,
+                    lateNum: '',
                 },
                 {
                     className: '计算机6班',
                     no: '',
                     name: '',
-                    lateNum: 0,
+                    lateNum: ''
                 },
                 {
                     className: '大数据1班',
                     no: '',
                     name: '',
-                    lateNum: 0,
+                    lateNum: ''
+                },
+            ],
+            courseData:[
+                {
+                    courseName: '软件工程',
+                    teacher: 'Kex',
+                    time: '第1周1-2节',
+                    absenceNum: 0,
+                },
+                {
+                    courseName: '计算机操作系统',
+                    no: '',
+                    name: '',
+                    absenceNum: 0,
+                },
+                {
+                    courseName: '数据库',
+                    no: '',
+                    name: '',
+                    absenceNum: 0,
+                },
+                {
+                    courseName: '形势与政策',
+                    no: '',
+                    name: '',
+                    absenceNum: 0,
+                },
+                {
+                    courseName: '人工智能',
+                    no: '',
+                    name: '',
+                    absenceNum: 0,
                 },
             ],
             headerStyle : {
@@ -124,6 +156,14 @@ export default {
                         bottom: '3%',
                         containLabel: true
                     },
+                    dataZoom : [
+                        {                           
+                            type: 'inside',// 内置于坐标系中
+                            start: 0,
+                            end: 100,
+                            xAxisIndex: [0]                    
+                        },
+                    ],
                     xAxis: {
                         type: 'category',
                         data: ['计算机1班', '计算机2班', '计算机3班', '计算机4班', '计算机5班','计算机6班',"大数据1班"]
@@ -167,6 +207,18 @@ export default {
                         formatter: '{b} : {c} ({d}%)'
                     },
                     series: [{
+                        label: {
+                            formatter: '{name|{b}}\n{value|{c}}',
+                            minMargin: 5,
+                            edgeDistance: 5,
+                            lineHeight: 15,
+                            rich: {
+                                time: {
+                                    fontSize: 10,
+                                    color: '#999'
+                                }
+                            }
+                        },
                         type: 'pie',
                         data: [
                             {

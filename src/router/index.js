@@ -24,8 +24,13 @@ const routes = [
         path:'/showData',
         component: ()=>
           import('../views/showData.vue')
-      }
-    ]
+      },
+    ],
+  },
+  {
+    path:'/login',
+    component: ()=>
+      import("../views/login.vue")
   }
 ]
 
