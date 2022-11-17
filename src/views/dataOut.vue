@@ -26,11 +26,11 @@
             v-show="way!='course'"
         >
             <el-table-column prop="courseName" label="班级" align="center" />
-            <el-table-column prop="classroomNo" label="班级总人数" align="center" />
+            <el-table-column prop="classNum" label="班级人数" align="center" />
             <el-table-column prop="professorName" label="全勤人数"   align="center" />
             <el-table-column prop="absenceNum" label="累计缺课人数"  align="center" />
-            <el-table-column prop="absenceList" label="累计到课比例" align="center" />
-            <el-table-column prop="lateList" label="" align="center" />
+            <el-table-column prop="absenceList" label="累计迟到人次" align="center" />
+            <el-table-column prop="lateList" label="累计到课比例" align="center" />
             <el-table-column prop="leaveList" label="查看详情" align="center">
                 <template #default="scope">
                     <div>点击查看</div>
