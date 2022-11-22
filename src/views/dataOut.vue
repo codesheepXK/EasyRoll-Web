@@ -18,6 +18,14 @@
                 :value="item.value"
             />
         </el-select>
+        <el-select v-show="way=='course'" v-model="sortWay"  placeholder="请选择排序方式"  size="large" style="margin-left:20px">
+            <el-option
+                v-for="item in sortWays"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+            />
+        </el-select>
     </div>
     <div class="dataBox">
         <el-table :data="classData" style="width: 90%;max-height : 39vh" border 
@@ -89,6 +97,7 @@ const headerStyle = reactive({
 const way = ref('class')//按班级还是课程
 const course = ref('')//选择课程名称
 const classIndex = ref('0')
+const sortWay = ref('')
 const options = [
   {
     value: 'class',
@@ -102,11 +111,11 @@ const options = [
 const courses = [
     {
         label:"软件工程",
-        value:"kex"
+        value:"1"
     },
     {
         label:"计算机操作系统",
-        value:"cb"
+        value:"2"
     }
 ]
 const classes =[
@@ -129,6 +138,20 @@ const classes =[
     {
         label:"计算机4班",
         value:"4"
+    },
+]
+const sortWays=[
+    {
+        label:"按上课时间排序",
+        value:"1"
+    },
+    {
+        label:"按缺课人数排序",
+        value:"2"
+    },
+    {
+        label:"按到课比例排序",
+        value:"3"
     },
 ]
 const classData = reactive([
