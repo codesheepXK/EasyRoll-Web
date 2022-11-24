@@ -6,25 +6,37 @@ const routes = [
     component: () =>
       import ('../views/index.vue'),
     children:[
+      // {
+      //   path: '',
+      //   redirect: '/newResult',
+      // },
       {
-        path: '',
-        redirect: '/newResult',
-      },
-      {
-        path:'/newResult',
+        path:'/assistant/newResult',
         component: ()=>
-          import('../views/newResult.vue')
+          import('../views/assistant/NewResult/newResult.vue')
       },
       {
-        path:'/dataOut',
+        path:'/assistant/dataOut',
         component: ()=>
-          import('../views/dataOut.vue')
+          import('../views/assistant/DataOut/dataOut.vue')
       },
       {
-        path:'/showData',
+        path:'/assistant/showData',
         component: ()=>
-          import('../views/showData.vue')
+          import('../views/assistant/ShowData/showData.vue')
       },
+      {
+        path:"/Teacher/student",
+        component:()=>import('../views/Teacher/ClassMembers/StudentInfo.vue')
+      },
+      {
+        path:"/Teacher/dataOut",
+        component:()=>import('../views/Teacher/DataOut/DataOut.vue')
+      },
+      {
+        path:"/Teacher/newResult",
+        component:()=>import('../views/Teacher/NewResult/NewResult.vue')
+      }
     ],
   },
   {

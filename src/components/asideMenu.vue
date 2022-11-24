@@ -9,16 +9,34 @@
         :default-active="router.currentRoute.value.fullPath"
         router
     >
-        <el-menu-item index="/newResult">
+        <el-menu-item index="/assistant/newResult" v-if="flag!=1">
             <el-icon><User /></el-icon>
             <span>最新点名结果</span>
         </el-menu-item>
-        <el-menu-item index="/showData">
+        <el-menu-item index="/assistant/showData" v-if="flag!=1">
             <el-icon><House /></el-icon>
             <span>数据可视化</span>
         </el-menu-item>
-        <el-menu-item index="/dataOut">
+        <el-menu-item index="/assistant/dataOut" v-if="flag!=1">
             <el-icon><User /></el-icon>
+            <span>数据导出</span>
+        </el-menu-item>
+        <el-menu-item index="/Teacher/newResult" v-if="flag==1">
+            <el-icon>
+                <House />
+            </el-icon>
+            <span>最新点名</span>
+        </el-menu-item>
+        <el-menu-item index="/Teacher/student" v-if="flag==1">
+            <el-icon>
+                <document />
+            </el-icon>
+            <span>班级成员</span>
+        </el-menu-item>
+        <el-menu-item index="/Teacher/dataOut" v-if="flag==1">
+            <el-icon>
+                <Monitor />
+            </el-icon>
             <span>数据导出</span>
         </el-menu-item>
       </el-menu>
@@ -33,6 +51,7 @@ const router =useRouter()
 // onMounted(() => {
 //     console.log(router.currentRoute.value.fullPath);
 // })
+let flag=0;
 </script>
 
 <style lang="scss" scoped>
