@@ -13,25 +13,25 @@ const routes = [
       {
         path:'/assistant/newResult',
         component: ()=>
-          import('../views/assistant/NewResult/newResult.vue')
+          import('../views/assistant/newResult.vue')
       },
       {
         path:'/assistant/dataOut',
         component: ()=>
-          import('../views/assistant/DataOut/dataOut.vue')
+          import('../views/assistant/dataOut.vue')
       },
       {
         path:'/assistant/showData',
         component: ()=>
-          import('../views/assistant/ShowData/showData.vue')
+          import('../views/assistant/showData.vue')
       },
       {
         path:"/Teacher/student",
-        component:()=>import('../views/Teacher/ClassMembers/StudentInfo.vue')
+        component:()=>import('../views/Teacher/StudentInfo.vue')
       },
       {
         path:"/Teacher/dataOut",
-        component:()=>import('../views/Teacher/DataOut/DataOut.vue')
+        component:()=>import('../views/Teacher/DataOut.vue')
       },
       {
         path:"/Teacher/newResult",

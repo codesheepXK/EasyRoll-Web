@@ -51,7 +51,7 @@ const router =useRouter()
 // onMounted(() => {
 //     console.log(router.currentRoute.value.fullPath);
 // })
-let flag=0;
+let flag=1;
 </script>
 
 <style lang="scss" scoped>

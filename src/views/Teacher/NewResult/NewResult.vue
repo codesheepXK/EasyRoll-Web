@@ -1,85 +1,95 @@
 <template>
         <div class="main">
-            <div class="blue">    
+            <div class="box box1">    
                 <circle-graph></circle-graph>
             </div>
-            <div class="orange">
-                <absence-info></absence-info>
+            <div class="box box2">
+                <h1>缺课名单</h1>
+                <el-table :data="tableData" border style="width: 80%;max-height:200px" :header-cell-style="headerStyle" >
+                    <el-table-column prop="date" label="学号"  align="center"/>
+                    <el-table-column prop="name" label="姓名"  align="center"/>
+                 </el-table>
             </div>
-            <div class="red">
+            <div class="box box3">
                 <pie-graph></pie-graph>
             </div>
-            <div class="green">
-                <leave-info></leave-info>
+            <div class="box">
+                <h1>请假名单</h1>
+                <el-table :data="tableData" border style="width: 80%;max-height:200px" :header-cell-style="headerStyle" >
+                    <el-table-column prop="date" label="学号"  align="center"/>
+                    <el-table-column prop="name" label="姓名"  align="center"/>
+                 </el-table>
             </div>
         </div>
 </template>
 
-<script>
-import PieGraph from './echarts/PieGraph.vue'; 
-import CircleGraph from './echarts/CircleGraph.vue';
-import AbsenceInfo from './home/AbsenceInfo.vue';
-import LeaveInfo from "./home/LeaveInfo.vue";
-export default {
-    components:{
-        PieGraph,
-        CircleGraph,
-        AbsenceInfo,
-        LeaveInfo
-    }
-}
+<script setup>
+import PieGraph from './PieGraph.vue'; 
+import CircleGraph from './CircleGraph.vue';
+import {ref,reactive} from 'vue'
+const headerStyle = reactive({
+    "text-align":"center",
+    "font-weight":"bold",
+    "color":"#fff",
+    "background-color":"rgb(23,132,252)",
+})
+const tableData = [
+    {
+        date: '2016-05-03',
+        name: 'Tom',
+    },
+    {
+        date: '2016-05-02',
+        name: 'Tom',
+    },
+    {
+        date: '2016-05-04',
+        name: 'Tom',
+    },
+    {
+        date: '2016-05-01',
+        name: 'Tom',
+    },
+    {
+        date: '2016-05-01',
+        name: 'Tom',
+    },
+]
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .main{
     display: flex;
     flex-wrap: wrap;
     position: relative;
     height: 82vh;
-    /* background-color: pink; */
 }
-
-.blue {
+.box{
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    /* position: relative; */
     height: 50%;
     width: 50%;
-    /* background-color: blue; */
-    border-bottom: 1px solid #808080;
-    border-right: 1px solid #808080;
     text-align: center;
     box-sizing: border-box;
+    h1{
+        color: #111;
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 30px;
+    }
 }
-.orange{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 50%;
-    width: 50%;
-    /* background-color: orange; */
+.box1 {
     border-bottom: 1px solid #808080;
-    box-sizing: border-box;
-}
-.red{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    /* position: relative; */
-    height: 50%;
-    width: 50%;
-    /* background-color: red; */
     border-right: 1px solid #808080;
-    box-sizing: border-box;
+    padding-top: 20px;
 }
-.green{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 50%;
-    width: 50%;
-    /* background-color: green; */
-    box-sizing: border-box;
+.box2{
+    border-bottom: 1px solid #808080;
+}
+.box3{
+    border-right: 1px solid #808080;
+    padding-top: 20px;
 }
 </style>
