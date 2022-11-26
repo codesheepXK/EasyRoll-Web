@@ -14,11 +14,13 @@
             <span>最新点名结果</span>
         </el-menu-item>
         <el-menu-item index="/assistant/showData" v-if="flag!=1">
-            <el-icon><House /></el-icon>
+            <el-icon><Menu /></el-icon>
             <span>数据可视化</span>
         </el-menu-item>
         <el-menu-item index="/assistant/dataOut" v-if="flag!=1">
-            <el-icon><User /></el-icon>
+            <el-icon>
+                <Monitor />
+            </el-icon>
             <span>数据导出</span>
         </el-menu-item>
         <el-menu-item index="/Teacher/newResult" v-if="flag==1">
@@ -43,15 +45,18 @@
 </template>
 
 <script setup>
-import {onMounted} from 'vue'
+import { onMounted,ref } from 'vue';
 //使用router的方法:引入并调用useRouter
 import { useRouter} from 'vue-router'
-
+import { useStore } from "vuex" 
 const router =useRouter()
-// onMounted(() => {
-//     console.log(router.currentRoute.value.fullPath);
-// })
-let flag=1;
+const store = useStore()
+let flag=ref(0)
+onMounted(()=>{
+    if(store.state.user.role=="2"){
+        flag.value=1
+    }
+})
 </script>
 
 <style lang="scss" scoped>
@@ -60,6 +65,7 @@ let flag=1;
     min-width: 200px;
     height: 90vh;
     color: #fff;
+    font-weight: bold;
     border-right: 2px solid #999;
     .el-sub-menu{
         .el-menu-item{
@@ -67,8 +73,8 @@ let flag=1;
         }
     }
     .el-menu-item.is-active{
-        color: #fff !important;
-        background-color: var(--el-menu-active-color) !important;
+        color: rgb(64, 152, 245)!important;
+        // background-color: rgb(64, 152, 245) !important;
     }
 }
 </style>

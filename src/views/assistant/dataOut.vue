@@ -28,9 +28,9 @@
         </el-select>
     </div>
     <div class="dataBox">
-        <el-table :data="classData" style="width: 90%;max-height : 39vh" border 
+        <el-table :data="classData" style="width: 90%;max-height : 39vh" border stripe 
             :header-cell-style="headerStyle" 
-            :cell-style="{borderColor:'#000'}"
+            :cell-style="{borderColor:'#ccc'}"
             v-show="way!='course'"
         >
             <el-table-column prop="courseName" label="班级" align="center" />
@@ -46,9 +46,9 @@
             </el-table-column>
         </el-table>
         
-        <el-table :data="courseData" style="width: 90%;max-height : 39vh" border 
+        <el-table :data="courseData" style="width: 90%;max-height : 39vh" border  stripe
             :header-cell-style="headerStyle" 
-            :cell-style="{borderColor:'#000'}"
+            :cell-style="{borderColor:'#ccc'}"
             v-show=" way =='course' "
         >
             <el-table-column prop="courseTime" label="上课时间" align="center" />
@@ -61,7 +61,7 @@
             </el-table-column>
         </el-table>
         </div>
-        <exprotBtns :flag="1"/>
+        <exprotBtns/>
   
 </template>
 
@@ -71,14 +71,14 @@ import { reactive, ref } from 'vue'
 const headerStyle = reactive({
     "text-align":"center",
     "font-weight":"bold",
-    "color":"#000",
-    "background-color":"rgb(232,232,232)",
-    "border-color":"#000",
+    "font-size":"17px",
+    "color":"#eee",
+    "border-color":"#ccc",
+    "background-color":"rgb(64, 152, 245)",
     "height":"50px"
 })
-const way = ref('class')//按班级还是课程
+let way = ref('class')//按班级还是课程
 const course = ref('')//选择课程名称
-const classIndex = ref('0')
 const sortWay = ref('')
 const options = [
   {
@@ -100,28 +100,7 @@ const courses = [
         value:"2"
     }
 ]
-const classes =[
-    {
-        label:"全部班级",
-        value:"0"
-    },
-    {
-        label:"计算机1班",
-        value:"1"
-    },
-    {
-        label:"计算机2班",
-        value:"2"
-    },
-    {
-        label:"计算机3班",
-        value:"3"
-    },
-    {
-        label:"计算机4班",
-        value:"4"
-    },
-]
+
 const sortWays=[
     {
         label:"按上课时间排序",
@@ -195,7 +174,6 @@ const courseData = reactive([
     height: 45vh;
     .el-table{
         margin:20px 0px; 
-        border: solid 1px #000;
     }
 }
 

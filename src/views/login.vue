@@ -22,11 +22,8 @@ const onMessage = (res)=>{
     let msg=JSON.parse(res.data);
     console.log(msg.status);
     if(msg.status == 200){
-        console.log("1111")
-        router.push({
-			path:'/newResult',
-		})
-   }
+        store.commit(login,msg)
+    }
 }
 const onClose = (res)=>{
     console.log("kkk");
@@ -36,7 +33,6 @@ onMounted(() => {
     axios({
         method: 'get',
         url: 'https://nicklorry.top:8090/auth/login/QRCode',
-        
     }).then(response=> {
         let socketId=response.headers['socketid'];
         let url="wss://nicklorry.top:8090/auth/login/web/"+socketId;
@@ -46,15 +42,6 @@ onMounted(() => {
         socket.onmessage = onMessage
         socket.onclose = onClose
     });
-    axios({
-        method:'get',
-        url:"http://127.0.0.1:8080/test",
-        data:{
-            name:"hhh"
-        }
-    }).then(res=>{
-        console.log(res);
-    })
 })
 onBeforeUnmount(() => {
     // 关闭连接

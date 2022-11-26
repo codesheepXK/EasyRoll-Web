@@ -8,9 +8,9 @@
             />
     </el-select>
     <div class="dataBox" >
-        <el-table :data="tableData" style="width: 90%;max-height : 70vh " border 
+        <el-table :data="tableData" style="width: 90%;max-height : 70vh " border stripe
             :header-cell-style="headerStyle" 
-            :cell-style="{borderColor:'#000'}"
+            :cell-style="{borderColor:'#ccc'}"
             v-show="way!='course'"
         >
             <el-table-column prop="courseName" label="班级" align="center" />
@@ -35,9 +35,10 @@ import dayjs from 'dayjs'
 const headerStyle = reactive({
     "text-align":"center",
     "font-weight":"bold",
-    "color":"#000",
-    "background-color":"rgb(232,232,232)",
-    "border-color":"#000",
+    "font-size":"17px",
+    "color":"#eee",
+    "border-color":"#ccc",
+    "background-color":"rgb(64, 152, 245)",
     "height":"50px"
 })
 const way = ref('1')
@@ -90,7 +91,6 @@ const tableData = reactive([
     height: 71vh;
     .el-table{
         margin:20px 0px; 
-        border: solid 1px #000;
     }
 }
 </style>

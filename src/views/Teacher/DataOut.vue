@@ -9,9 +9,9 @@
     </el-select>
     <div class="dataBox">
         
-        <el-table :data="courseData" style="width: 90%;max-height : 38vh" border 
+        <el-table :data="courseData" stripe style="width: 90%;max-height : 38vh" border 
             :header-cell-style="headerStyle" 
-            :cell-style="{borderColor:'#000'}"
+            :cell-style="{borderColor:'#ccc'}"
         >
             <el-table-column prop="courseTime" label="上课时间" align="center" />
             <el-table-column prop="classroomNo" label="课程总人数" align="center" />
@@ -23,7 +23,7 @@
             </el-table-column>
         </el-table>
     </div>
-    <exprotBtns :flag="0"/>
+    <exprotBtns/>
 </template>
 
 <script setup>
@@ -33,9 +33,10 @@ import dayjs from 'dayjs'
 const headerStyle = reactive({
     "text-align":"center",
     "font-weight":"bold",
-    "color":"#000",
-    "background-color":"rgb(232,232,232)",
-    "border-color":"#000",
+    "font-size":"17px",
+    "color":"#eee",
+    "border-color":"#ccc",
+    "background-color":"rgb(64, 152, 245)",
     "height":"50px"
 })
 
@@ -102,7 +103,6 @@ const courseData = reactive([
     height: 39vh;
     .el-table{
         margin:20px 0px; 
-        border: solid 1px #000;
     }
 }
 

@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <h1>点名结果</h1>
-    <el-select v-model="value" class="m-2" placeholder="Select" size="large">
+    <el-select v-model="value" placeholder="Select" size="large">
         <el-option
         v-for="item in options"
         :key="item.value"
@@ -12,10 +12,9 @@
   </div>
   <div class="tableBox" >
     <div class="table"  v-for="(table,index) in tableData" :key="index">
-        <el-table :data="table" style="width: 90%" border  height='250'
+        <el-table :data="table" style="width: 90%" border  stripe
           :header-cell-style="headerStyle" 
-          :cell-style="{borderColor:'#000'}"
-          :row-style="{height: '200px'}"
+          :cell-style="{borderColor:'#ccc'}"
         >
           <el-table-column prop="courseName" label="课程" align="center" />
           <el-table-column prop="classroomNo" label="教室" align="center" />
@@ -79,12 +78,52 @@ const options = [
 const headerStyle = reactive({
     "text-align":"center",
     "font-weight":"bold",
-    "color":"#000",
-    "background-color":"rgb(232,232,232)",
-    "border-color":"#000",
+    "font-size":"17px",
+    "color":"#eee",
+    "border-color":"#ccc",
+    "background-color":"rgb(64, 152, 245)",
     "height":"50px"
 })
 const tableData=reactive([
+  [
+    {
+      "courseName":"软件工程",
+      "classroomNo":"07307",
+      "professorName":"Kex",
+      "absenceNum":"2",
+      "absenceList":["aaa","bbb"],
+      "lateNum":"2",
+      "lateList":["ccc","ddd"],
+      "leaveNum":"2",
+      "leaveList":["eee","fff"]
+    },
+  ],
+  [
+    {
+      "courseName":"软件工程",
+      "classroomNo":"07307",
+      "professorName":"Kex",
+      "absenceNum":"2",
+      "absenceList":["aaa","bbb"],
+      "lateNum":"2",
+      "lateList":["ccc","ddd"],
+      "leaveNum":"2",
+      "leaveList":["eee","fff"]
+    },
+  ],
+  [
+    {
+      "courseName":"软件工程",
+      "classroomNo":"07307",
+      "professorName":"Kex",
+      "absenceNum":"2",
+      "absenceList":["aaa","bbb"],
+      "lateNum":"2",
+      "lateList":["ccc","ddd","ccc","ddd","ccc","ddd","ccc","ddd"],
+      "leaveNum":"2",
+      "leaveList":["eee","fff"]
+    },
+  ],
   [
     {
       "courseName":"软件工程",
@@ -156,7 +195,6 @@ const tableData=reactive([
       width: 100%;
       .el-table{
         margin:20px 0px; 
-        border: solid 1px #000;
       }
     }
 }

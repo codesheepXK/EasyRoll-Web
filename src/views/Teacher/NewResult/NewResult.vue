@@ -5,7 +5,7 @@
             </div>
             <div class="box box2">
                 <h1>缺课名单</h1>
-                <el-table :data="tableData" border style="width: 80%;max-height:200px" :header-cell-style="headerStyle" >
+                <el-table :data="tableData" border stripe style="width: 80%;max-height:200px" :header-cell-style="headerStyle" >
                     <el-table-column prop="date" label="学号"  align="center"/>
                     <el-table-column prop="name" label="姓名"  align="center"/>
                  </el-table>
@@ -15,7 +15,7 @@
             </div>
             <div class="box">
                 <h1>请假名单</h1>
-                <el-table :data="tableData" border style="width: 80%;max-height:200px" :header-cell-style="headerStyle" >
+                <el-table :data="tableData" border stripe style="width: 80%;max-height:200px" :header-cell-style="headerStyle" >
                     <el-table-column prop="date" label="学号"  align="center"/>
                     <el-table-column prop="name" label="姓名"  align="center"/>
                  </el-table>
@@ -30,8 +30,10 @@ import {ref,reactive} from 'vue'
 const headerStyle = reactive({
     "text-align":"center",
     "font-weight":"bold",
-    "color":"#fff",
-    "background-color":"rgb(23,132,252)",
+    "font-size":"16px",
+    "color":"#eee",
+    "border-color":"#ccc",
+    "background-color":"rgb(64, 152, 245)",
 })
 const tableData = [
     {

@@ -1,19 +1,20 @@
 <template>
     <div class="welcome">
-        <div class="title">{{ title }}</div>
-        <div class="teacher">{{ teacher }}老师,您好！</div>
+        <div class="title">{{course }}</div>
+        <div class="teacher">{{ name }}老师,您好！</div>
     </div>
 </template>
 
-<script>
-export default {
-    data() {
-        return {
-            title: "计算机操作系统",
-            teacher: "陈勃"
-        }
-    },
-}
+<script setup>
+import { onMounted,reactive,ref } from "vue"
+import { useStore } from "vuex" 
+const store = useStore()
+let name =ref("")
+let course=ref("")
+onMounted(()=>{
+    name.value=store.state.user.name
+    course.value=store.state.user.courses[0].name
+})
 </script>
 
 <style scoped>

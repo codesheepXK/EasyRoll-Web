@@ -13,7 +13,15 @@
 import pageHeader from '@/components/pageHeader.vue';
 import asideMenu from '../components/asideMenu.vue'
 import WelcomeTag from '@/components/WelcomeTag.vue';
-let flag=0;
+import { useStore } from "vuex" 
+import { onMounted,ref } from 'vue';
+const store = useStore()
+let flag=ref(0)
+onMounted(()=>{
+    if(store.state.user.role=="2"){
+        flag.value=1
+    }
+})
 </script>
 
 <style lang="scss" scoped>

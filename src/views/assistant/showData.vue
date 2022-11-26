@@ -3,9 +3,9 @@
     <div class="showBox">
         <div class="box box1">
             <h1>缺课次数</h1>
-            <el-table :data="classData"  border style="width: 95%; height:32.5vh"  
+            <el-table :data="classData"  border stripe style="width: 95%; height:32.5vh"  
                 :header-cell-style="headerStyle" 
-                :cell-style="{borderColor:'#000'}"
+                :cell-style="{borderColor:'#ccc'}"
             >
                 <el-table-column prop="className" label="班级" align="center"/>
                 <el-table-column prop="no" label="学号" align="center"/>
@@ -19,9 +19,9 @@
         </div>
         <div class="box box3">
             <h1>课程情况</h1>
-            <el-table :data="courseData" border style="width: 95%; height:32.5vh" 
+            <el-table :data="courseData" border stripe style="width: 95%; height:32.5vh" 
                 :header-cell-style="headerStyle" 
-                :cell-style="{borderColor:'#000'}"
+                :cell-style="{borderColor:'#ccc'}"
             >
                 <el-table-column prop="courseName" label="课程" align="center"/>
                 <el-table-column prop="teacher" label="任课老师" align="center"/>
@@ -118,13 +118,14 @@ export default {
                     absenceNum: 0,
                 },
             ],
-            headerStyle : {
+             headerStyle : {
                 "text-align":"center",
                 "font-weight":"bold",
-                "color":"#000",
-                "background-color":"rgb(232,232,232)",
-                "border-color":"#000",
-                "height":"40px"
+                "font-size":"16px",
+                "color":"#eee",
+                "border-color":"#ccc",
+                "background-color":"rgb(64, 152, 245)",
+                "height":"50px"
             }
         }
     },
@@ -283,7 +284,6 @@ export default {
     }
     .el-table{
         margin:20px 0px; 
-        border: solid 1px #000;
     }
 }
 </style>
