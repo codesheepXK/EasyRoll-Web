@@ -4,39 +4,57 @@
     </div>
 </template>
  
-<script lang="js">
+<script >
 import * as echarts from 'echarts';
-import { defineComponent, onMounted } from "vue"; // 主要
-export default defineComponent({
-    
-    setup() {
-        onMounted(() => {
-            circle();
-        });
-        // 基本柱形图
-        const circle = () => {
-            const chartBox = echarts.init(document.getElementById("main_1")); // 主要
+export default{
+    data(){
+        return{
+            MyChart:null
+        }
+    },
+    mounted(){
+        this.circle();
+    },   
+    watch:{
+        currentData:{
+            deep:true,
+            handler(){
+                this.MyChart.setOption({
+                    series:[ 
+                        {
+                            data: this.currentData
+                        },
+                        {
+                            data: this.currentData
+                        }
+                    ]
+                });
+	        }
+        }
+    },
+    props:{
+        currentData:{
+           type: Array
+        }
+    },
+    methods:{
+        circle(){
+            // if ( this.MyChart != null &&  this.MyChart != "" &&  this.MyChart != undefined) {
+            //     this.MyChart.dispose();//销毁
+            // }
+            this.MyChart = echarts.init(document.getElementById("main_1")); // 主要
             const option = {
-                title: {
-                    text: '点名进度情况',
-                    textStyle: {
-                        fontSize: 20,
-                    },
-                    left:'center'
-                },
+                // title: {
+                //     text: '点名进度情况',
+                //     textStyle: {
+                //         fontSize: 20,
+                //     },
+                //     left:'center'
+                // },
                 series: [
                     {
                         type: 'pie',
-                        data: [
-                            {
-                                value: 335,
-                                name: '已点名'
-                            },
-                            {
-                                value: 234,
-                                name: '未点名'
-                            }
-                        ],
+                        data: this.currentData,
                         radius: ['40%', '70%'],
                         label: {
                             show: true,
@@ -55,16 +73,7 @@ export default defineComponent({
                     },
                     {
                         type: 'pie',
-                        data: [
-                            {
-                                value: 335,
-                                name: '已点名'
-                            },
-                            {
-                                value: 234,
-                                name: '未点名'
-                            }
-                        ],
+                        data: this.currentData,
                         radius: ['40%', '70%'],
                         label: {
                             show: true,
@@ -84,14 +93,13 @@ export default defineComponent({
                     }
                 ],
             };
-            chartBox.setOption(option);
-            // 根据页面大小自动响应图表大小
-            window.addEventListener("resize", function () {
-                chartBox.resize();
-            });
-        };
-    },
-});
+            this.MyChart.setOption(option);
+            
+        }
+    } 
+
+}
+
 </script>
  
 <style lang="scss" scoped>

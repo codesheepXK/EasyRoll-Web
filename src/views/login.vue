@@ -1,7 +1,7 @@
 <template>
     <pageHeaderVue></pageHeaderVue>
     <div class="loginBox">
-        <img src="https://nicklorry.top:8090/auth/login/QRCode"/>
+        <img :src="imgUrl"/>
         <h1>请使用微信扫码登录</h1>
     </div>
 </template>
@@ -15,6 +15,7 @@ import { useRouter} from 'vue-router'
 import { useStore } from "vuex" 
 const router =useRouter()
 const store = useStore()
+const imgUrl=ref("")
 const onOpen = (res)=>{
     console.log("hhh");
 }
@@ -22,7 +23,7 @@ const onMessage = (res)=>{
     let msg=JSON.parse(res.data);
     console.log(msg.status);
     if(msg.status == 200){
-        store.commit(login,msg)
+        store.commit("user/login",msg.data)
     }
 }
 const onClose = (res)=>{
@@ -34,9 +35,11 @@ onMounted(() => {
         method: 'get',
         url: 'https://nicklorry.top:8090/auth/login/QRCode',
     }).then(response=> {
-        let socketId=response.headers['socketid'];
+        console.log(response)
+        let socketId=response.data.data.socketId
+        let imageURL=response.data.data.qrcodeUrl
+        imgUrl.value="https://nicklorry.top:8090"+imageURL
         let url="wss://nicklorry.top:8090/auth/login/web/"+socketId;
-        console.log(url);
         socket = new WebSocket(url)
         socket.onopen = onOpen
         socket.onmessage = onMessage

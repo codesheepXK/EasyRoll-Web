@@ -1,14 +1,11 @@
 import router from "@/router";
 
 const state = {
+    id:"",
     token:"",
-    role:"3",
-    name: "柯逍",
+    role:"",
+    name: "",
     courses:[
-        {
-            "id": "17908293",
-            "name": "软件工程"
-        }
     ]
 
 }
@@ -30,16 +27,31 @@ const actions = {
 const mutations = {
     //登录
     login(state,res){
+        console.log(res);
         //保存token
         state.token = res.Authorization;
-        localStorage.setItem('token',msg.token);
-        state.role=res.data.role
-        state.name=res.data.name
-        state.courses=res.data.courses
+        localStorage.setItem('Authorization',state.token);
+        localStorage.setItem('role',res.role);
+        state.role=res.role
+        state.name=res.name
+        if(res.courses!=[]&&('courses' in res)){
+            res.courses.forEach(ele => {
+                state.courses.push(ele)
+            });
+        }
         //修改得到用户数据
-        alert("登陆成功!欢迎");
-        router.push('/newResult')
+        if(res.role=="2"){
+            router.push('/teacher/newResult')
+        }
+        else  router.push('/assistant/newResult')
     },
+    logout(state){
+        state.token="",
+        state.role=""
+        localStorage.clear('Authorization')
+        localStorage.clear('role')
+        router.push("/login")
+    }
 }
 
 const getters = {};

@@ -23,19 +23,19 @@
             </el-icon>
             <span>数据导出</span>
         </el-menu-item>
-        <el-menu-item index="/Teacher/newResult" v-if="flag==1">
+        <el-menu-item index="/teacher/newResult" v-if="flag==1">
             <el-icon>
                 <House />
             </el-icon>
             <span>最新点名</span>
         </el-menu-item>
-        <el-menu-item index="/Teacher/student" v-if="flag==1">
+        <el-menu-item index="/teacher/student" v-if="flag==1">
             <el-icon>
                 <document />
             </el-icon>
             <span>班级成员</span>
         </el-menu-item>
-        <el-menu-item index="/Teacher/dataOut" v-if="flag==1">
+        <el-menu-item index="/teacher/dataOut" v-if="flag==1">
             <el-icon>
                 <Monitor />
             </el-icon>

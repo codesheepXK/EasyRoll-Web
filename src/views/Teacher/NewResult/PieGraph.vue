@@ -6,40 +6,57 @@
  
 <script lang="js">
 import * as echarts from 'echarts';
-import { defineComponent, onMounted } from "vue"; // 主要
-export default defineComponent({
-    setup() {
-        onMounted(() => {
-            change();
-        });
-        // 基本柱形图
-        const change = () => {
-            const chartBox = echarts.init(document.getElementById("main")); // 主要
+export default {
+    data(){
+        return{
+            MyChart:null
+        }
+    },
+    props:{
+        arriveData:{
+            type:Array
+        }
+    },
+    mounted() {
+        this.change();
+    },
+    watch:{
+        arriveData:{
+            deep:true,
+            handler(){
+                this.MyChart.setOption(
+                    {
+                        series:[ 
+                            {
+                                data: this.arriveData
+                            },
+                            {
+                                data: this.arriveData
+                            }
+                        ]  
+                    }
+                )
+	        }
+        }
+    },
+    methods:{
+        change (){
+            // if ( this.MyChart != null &&  this.MyChart != "" &&  this.MyChart != undefined) {
+            //     this.MyChart.dispose();//销毁
+            // }
+            this.MyChart = echarts.init(document.getElementById("main")); // 主要
             const option = {
-                title: {
-                    text: '点名到课情况',
-                    textStyle:{
-                        fontSize:20,
-                    },
-                    left: 'center'
-                },
+                // title: {
+                //     text: '点名到课情况',
+                //     textStyle:{
+                //         fontSize:20,
+                //     },
+                //     left: 'center'
+                // },
                 series: [
                     {
                         type: 'pie',
-                        data: [
-                            {
-                                value: 335,
-                                name: '缺课'
-                            },
-                            {
-                                value: 234,
-                                name: '请假'
-                            },
-                            {
-                                value: 1548,
-                                name: '到课'
-                            }
-                        ],
+                        data: this.arriveData,
                         label: {
                             show:true,
                             fontSize:'15',
@@ -57,20 +74,7 @@ export default defineComponent({
                     },
                     {
                     type: 'pie',
-                    data: [
-                        {
-                            value: 335,
-                            name: '缺课'
-                        },
-                        {
-                            value: 234,
-                            name: '请假'
-                        },
-                        {
-                            value: 1548,
-                            name: '到课'
-                        }
-                    ],
+                    data: this.arriveData,
                     label: {
                         show: true,
                         position:'inner',
@@ -89,14 +93,13 @@ export default defineComponent({
                 }
                 ],
             };
-            chartBox.setOption(option);
-            // 根据页面大小自动响应图表大小
-            window.addEventListener("resize", function () {
-                chartBox.resize();
-            });
-        };
-    },
-});
+            this.MyChart.setOption(option);
+            
+        }
+    }
+        // 基本柱形图
+    
+}
 </script>
  
 <style lang="scss" scoped>

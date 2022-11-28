@@ -1,23 +1,25 @@
 <template>
         <div class="main">
-            <div class="box box1">    
-                <circle-graph></circle-graph>
+            <div class="box box1">   
+                <h1>点名进度</h1> 
+                <circle-graph :currentData="currentData"></circle-graph>
             </div>
             <div class="box box2">
                 <h1>缺课名单</h1>
-                <el-table :data="tableData" border stripe style="width: 80%;max-height:200px" :header-cell-style="headerStyle" >
-                    <el-table-column prop="date" label="学号"  align="center"/>
-                    <el-table-column prop="name" label="姓名"  align="center"/>
+                <el-table :data="absenceData" border stripe style="width: 80%;max-height:200px" :header-cell-style="headerStyle" >
+                    <el-table-column prop="studentId" label="学号"  align="center"/>
+                    <el-table-column prop="studentName" label="姓名"  align="center"/>
                  </el-table>
             </div>
             <div class="box box3">
-                <pie-graph></pie-graph>
+                <h1>到课情况</h1>
+                <pie-graph :arriveData="arriveData"></pie-graph>
             </div>
             <div class="box">
                 <h1>请假名单</h1>
-                <el-table :data="tableData" border stripe style="width: 80%;max-height:200px" :header-cell-style="headerStyle" >
-                    <el-table-column prop="date" label="学号"  align="center"/>
-                    <el-table-column prop="name" label="姓名"  align="center"/>
+                <el-table :data="leaveData" border stripe style="width: 80%;max-height:200px" :header-cell-style="headerStyle" >
+                    <el-table-column prop="studentId" label="学号"  align="center"/>
+                    <el-table-column prop="studentName" label="姓名"  align="center"/>
                  </el-table>
             </div>
         </div>
@@ -26,7 +28,109 @@
 <script setup>
 import PieGraph from './PieGraph.vue'; 
 import CircleGraph from './CircleGraph.vue';
-import {ref,reactive} from 'vue'
+import {ref,reactive,onMounted,onBeforeUnmount} from 'vue'
+import { useStore } from "vuex" 
+import axios from 'axios'
+const store = useStore()
+const leaveData= reactive([])//请假名单
+const absenceData = reactive([])//缺课名单
+const currentData=reactive([])//目前点名情况
+const arriveData=reactive([])//出席情况
+//长连接开启函数
+const onOpen = (res)=>{
+    console.log("hhh");
+}
+const rollNum=ref(0)//总人数
+const isDote =ref(0)//已经点的人数
+let timer=null;
+const attendNum=ref(0)//到课人数
+const absenceNum=ref(0)//缺课人数
+const leaveNum=ref(0)//请假人数
+const lateNum=ref(0)//迟到人数
+const init=()=>{
+    currentData.splice(0,currentData.length);
+    arriveData.splice(0,arriveData.length)
+    absenceData.splice(0,absenceData.length)
+    leaveData.splice(0,leaveData.length)
+    attendNum.value=0
+    absenceNum.value=0
+    leaveNum.value=0
+    isDote.value=0
+}
+const onMessage = (res)=>{
+    if(res!=null){
+        let msg=JSON.parse(res.data);
+        console.log(msg.data);
+        if(msg.data.flag==0){
+            init()
+            rollNum.value=msg.data.enrollNum;
+            msg.data.absenceList.forEach(ele=> {
+                absenceData.push(ele)
+            });
+            msg.data.leaveList.forEach(ele=>{
+                leaveData.push(ele)
+            })
+            currentData.push({value:0,name:"已点名"},{value:rollNum.value,name:"未点名"})
+        }
+        if(msg.data.flag==1){
+            isDote.value=isDote.value+1;
+            if(msg.data.state==0){
+                attendNum.value=attendNum.value+1
+            }
+            if(msg.data.state==1){
+                leaveData.push({studentId:msg.data.studentId,studentName:msg.data.studentName})
+                leaveNum.value=leaveNum.value+1
+            }
+            if(msg.data.state==2){
+                lateNum.value=lateNum.value+1
+            }
+            if(msg.data.state==3){
+                absenceData.push({studentId:msg.data.studentId,studentName:msg.data.studentName})
+                absenceNum.value=absenceNum.value+1
+            }
+            currentData.splice(0,currentData.length)
+            arriveData.splice(0,arriveData.length)
+
+            currentData.push({value:isDote.value,name:"已点名"})
+            currentData.push({value:rollNum.value-isDote.value,name:"未点名"})
+
+            arriveData.push({value:attendNum.value,name:"到课人数"})
+            arriveData.push({value:absenceNum.value,name:"缺课人数"})
+            arriveData.push({value:leaveNum.value,name:"请假人数"})
+            arriveData.push({value:lateNum.value,name:"迟到人数"})
+        }
+    } 
+}
+const onClose = (res)=>{
+    console.log("kkk");
+}
+const shake=()=>{
+    timer = setInterval(()=>{
+        socket.send("lllll")
+    },30000)
+}
+let socket = null
+onMounted(() => {
+    let courseId=store.state.user.courses[0].id
+    let token=store.state.user.token
+    console.log(courseId);
+    console.log(token);
+    let url="wss://nicklorry.top:8090/professor/roll/data/"+courseId+"/"+token;
+    console.log(url);
+    socket = new WebSocket(url)
+    socket.onopen = onOpen
+    socket.onmessage = onMessage
+    socket.onclose = onClose
+    shake();
+})
+onBeforeUnmount(() => {
+    // 关闭连接
+      socket.close()
+    // 销毁 websocket 实例对象
+    socket = null
+    clearInterval(timer)
+
+})
 const headerStyle = reactive({
     "text-align":"center",
     "font-weight":"bold",
@@ -35,28 +139,6 @@ const headerStyle = reactive({
     "border-color":"#ccc",
     "background-color":"rgb(64, 152, 245)",
 })
-const tableData = [
-    {
-        date: '2016-05-03',
-        name: 'Tom',
-    },
-    {
-        date: '2016-05-02',
-        name: 'Tom',
-    },
-    {
-        date: '2016-05-04',
-        name: 'Tom',
-    },
-    {
-        date: '2016-05-01',
-        name: 'Tom',
-    },
-    {
-        date: '2016-05-01',
-        name: 'Tom',
-    },
-]
 </script>
 
 <style lang="scss" scoped>

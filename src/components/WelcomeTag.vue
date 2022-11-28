@@ -1,12 +1,12 @@
 <template>
     <div class="welcome">
-        <div class="title">{{course }}</div>
+        <div class="title">{{ course }}</div>
         <div class="teacher">{{ name }}老师,您好！</div>
     </div>
 </template>
 
 <script setup>
-import { onMounted,reactive,ref } from "vue"
+import { onMounted,ref } from "vue"
 import { useStore } from "vuex" 
 const store = useStore()
 let name =ref("")
