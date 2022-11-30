@@ -61,12 +61,12 @@
             </el-table-column>
         </el-table>
         </div>
-        <exprotBtns/>
+        <exprotAssistant/>
   
 </template>
 
 <script setup>
-import exprotBtns from '@/components/exprotBtns.vue';
+import exprotAssistant from '@/components/exprotAssistant.vue';
 import { reactive, ref } from 'vue'
 const headerStyle = reactive({
     "text-align":"center",

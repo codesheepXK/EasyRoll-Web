@@ -17,17 +17,16 @@ const router =useRouter()
 const store = useStore()
 const imgUrl=ref("")
 const onOpen = (res)=>{
-    console.log("hhh");
+    console.log("登录websocket开启");
 }
 const onMessage = (res)=>{
     let msg=JSON.parse(res.data);
-    console.log(msg.status);
     if(msg.status == 200){
         store.commit("user/login",msg.data)
     }
 }
 const onClose = (res)=>{
-    console.log("kkk");
+    console.log("登录websocket关闭");
 }
 let socket = null
 onMounted(() => {
@@ -35,7 +34,6 @@ onMounted(() => {
         method: 'get',
         url: 'https://nicklorry.top:8090/auth/login/QRCode',
     }).then(response=> {
-        console.log(response)
         let socketId=response.data.data.socketId
         let imageURL=response.data.data.qrcodeUrl
         imgUrl.value="https://nicklorry.top:8090"+imageURL

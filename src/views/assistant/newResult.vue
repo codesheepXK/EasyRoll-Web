@@ -1,4 +1,5 @@
 <template>
+  <WelcomeTag></WelcomeTag>
   <div class="header">
     <h1>点名结果</h1>
     <el-select v-model="value" placeholder="Select" size="large">
@@ -55,6 +56,7 @@
 </template>
 
 <script  setup>
+import WelcomeTag from '@/components/WelcomeTag.vue';
 import { ref,reactive } from 'vue'
 const value = ref('Option1')
 const options = [

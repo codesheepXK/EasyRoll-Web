@@ -17,7 +17,6 @@ const store = useStore()
 let flag=ref(0)
 onMounted(()=>{
   if(store.state.user.token!="") flag.value=1
-  console.log("lll");
 })
 const logout=()=>{
   ElMessageBox.confirm('是否登出', '提示', {
@@ -62,6 +61,7 @@ const logout=()=>{
       width: 100px;
       height: 40px;
       font-size: 20px;
+      font-weight: bold;
       span{
         font-size: 15px;
       }

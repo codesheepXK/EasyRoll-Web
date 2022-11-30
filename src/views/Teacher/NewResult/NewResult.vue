@@ -28,7 +28,7 @@
 <script setup>
 import PieGraph from './PieGraph.vue'; 
 import CircleGraph from './CircleGraph.vue';
-import {ref,reactive,onMounted,onBeforeUnmount} from 'vue'
+import {ref,reactive,onMounted,onBeforeUnmount,watch} from 'vue'
 import { useStore } from "vuex" 
 import axios from 'axios'
 const store = useStore()
@@ -38,7 +38,7 @@ const currentData=reactive([])//目前点名情况
 const arriveData=reactive([])//出席情况
 //长连接开启函数
 const onOpen = (res)=>{
-    console.log("hhh");
+    console.log("websocket开启");
 }
 const rollNum=ref(0)//总人数
 const isDote =ref(0)//已经点的人数
@@ -47,6 +47,8 @@ const attendNum=ref(0)//到课人数
 const absenceNum=ref(0)//缺课人数
 const leaveNum=ref(0)//请假人数
 const lateNum=ref(0)//迟到人数
+const curCourseId=ref("")
+let socket = null
 const init=()=>{
     currentData.splice(0,currentData.length);
     arriveData.splice(0,arriveData.length)
@@ -102,33 +104,44 @@ const onMessage = (res)=>{
     } 
 }
 const onClose = (res)=>{
-    console.log("kkk");
+    console.log("websocket关闭");
+    clearInterval(timer)
 }
-const shake=()=>{
+const send=()=>{
     timer = setInterval(()=>{
-        socket.send("lllll")
+        socket.emit("heart shake");
     },30000)
 }
-let socket = null
-onMounted(() => {
-    let courseId=store.state.user.courses[0].id
+const createWebsocket=()=>{
+    if(socket!=null&&typeof(socket)!=undefined){
+        socket.close()
+        socket = null
+    }
+    let courseId=store.state.user.curCourseId
     let token=store.state.user.token
-    console.log(courseId);
-    console.log(token);
+    if(typeof(store.state.user.curCourseId)==undefined||courseId==null||courseId==""){
+        return;
+    }
     let url="wss://nicklorry.top:8090/professor/roll/data/"+courseId+"/"+token;
-    console.log(url);
     socket = new WebSocket(url)
+
     socket.onopen = onOpen
     socket.onmessage = onMessage
     socket.onclose = onClose
-    shake();
+    init()
+}
+
+onMounted(() => {
+    // createWebsocket()
 })
 onBeforeUnmount(() => {
-    // 关闭连接
-      socket.close()
-    // 销毁 websocket 实例对象
-    socket = null
-    clearInterval(timer)
+    if(socket!=null){
+        // 关闭连接
+        socket.close()
+        // 销毁 websocket 实例对象
+        socket = null
+        clearInterval(timer)
+    }
 
 })
 const headerStyle = reactive({
@@ -138,6 +151,16 @@ const headerStyle = reactive({
     "color":"#eee",
     "border-color":"#ccc",
     "background-color":"rgb(64, 152, 245)",
+})
+
+watch(()=>store.state.user.curCourseId,(newVal,oldVal)=>{
+    if(typeof(store.state.user.curCourseId)!=undefined&&store.state.user.curCourseId!=""&&socket==null){
+        console.log("wdqwd");
+        createWebsocket()
+    }
+},{
+    deep:true,
+    immediate:true
 })
 </script>
 
@@ -165,15 +188,15 @@ const headerStyle = reactive({
     }
 }
 .box1 {
-    border-bottom: 1px solid #808080;
-    border-right: 1px solid #808080;
+    border-bottom: 1px solid rgb(64, 152, 245);
+    border-right: 1px solid rgb(64, 152, 245);
     padding-top: 20px;
 }
 .box2{
-    border-bottom: 1px solid #808080;
+    border-bottom: 1px solid rgb(64, 152, 245);
 }
 .box3{
-    border-right: 1px solid #808080;
+    border-right: 1px solid rgb(64, 152, 245);
     padding-top: 20px;
 }
 </style>

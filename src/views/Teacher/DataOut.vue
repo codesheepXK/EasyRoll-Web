@@ -19,15 +19,14 @@
             <el-table-column prop="absenceNum" label="缺课人数"  align="center" />
             <el-table-column prop="absenceList" label="请假人数" align="center" />
             <el-table-column prop="lateList" label="迟到人数" align="center" />
-            <el-table-column prop="leaveList" label="到课比例" align="center">
-            </el-table-column>
+            <el-table-column prop="leaveList" label="到课比例" align="center"/>
         </el-table>
     </div>
-    <exprotBtns/>
+    <exprotTeacher/>
 </template>
 
 <script setup>
-import exprotBtns from '@/components/exprotBtns.vue';
+import exprotTeacher from '@/components/exprotTeacher.vue';
 import { ref,reactive } from 'vue'
 import dayjs from 'dayjs'
 const headerStyle = reactive({

@@ -66,7 +66,7 @@ onMounted(()=>{
     height: 90vh;
     color: #fff;
     font-weight: bold;
-    border-right: 2px solid #999;
+    border-right: 2px solid rgb(64, 152, 245);
     .el-sub-menu{
         .el-menu-item{
             background-color: rgb(247,247,247);

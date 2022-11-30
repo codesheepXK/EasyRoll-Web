@@ -5,9 +5,8 @@ const state = {
     token:"",
     role:"",
     name: "",
-    courses:[
-    ]
-
+    courses:[],
+    curCourseId:"",
 }
 
 
@@ -26,18 +25,23 @@ const actions = {
 
 const mutations = {
     //登录
+    setCurCourseId(state,newId){
+        state.curCourseId=""+newId
+    },
     login(state,res){
-        console.log(res);
         //保存token
+        console.log(res);
         state.token = res.Authorization;
         localStorage.setItem('Authorization',state.token);
         localStorage.setItem('role',res.role);
         state.role=res.role
         state.name=res.name
         if(res.courses!=[]&&('courses' in res)){
+            state.courses.splice(0,state.courses.length)
             res.courses.forEach(ele => {
                 state.courses.push(ele)
             });
+            state.curCourseId=state.courses[0]['id']
         }
         //修改得到用户数据
         if(res.role=="2"){
