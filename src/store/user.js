@@ -41,7 +41,6 @@ const mutations = {
             res.courses.forEach(ele => {
                 state.courses.push(ele)
             });
-            state.curCourseId=state.courses[0]['id']
         }
         //修改得到用户数据
         if(res.role=="2"){

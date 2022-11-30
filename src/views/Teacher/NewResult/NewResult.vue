@@ -47,7 +47,7 @@ const attendNum=ref(0)//到课人数
 const absenceNum=ref(0)//缺课人数
 const leaveNum=ref(0)//请假人数
 const lateNum=ref(0)//迟到人数
-const curCourseId=ref("")
+
 let socket = null
 const init=()=>{
     currentData.splice(0,currentData.length);
@@ -107,38 +107,24 @@ const onClose = (res)=>{
     console.log("websocket关闭");
     clearInterval(timer)
 }
-const send=()=>{
-    timer = setInterval(()=>{
-        socket.emit("heart shake");
-    },30000)
-}
+
 const createWebsocket=()=>{
-    if(socket!=null&&typeof(socket)!=undefined){
-        socket.close()
-        socket = null
-    }
     init()
     let courseId=store.state.user.curCourseId
     let token=store.state.user.token
-    if(typeof(store.state.user.curCourseId)==undefined||courseId==null||courseId==""){
+    if(!courseId){
         return;
     }
     let url="wss://nicklorry.top:8090/professor/roll/data/"+courseId+"/"+token;
     socket = new WebSocket(url)
-
     socket.onopen = onOpen
     socket.onmessage = onMessage
     socket.onclose = onClose
-
 }
-
-onMounted(() => {
-    // createWebsocket()
-})
 onUnmounted(() => {
-    if(socket!=null){
+    if(socket!==null){
         // 关闭连接
-        socket.close()
+        socket.onclose()
         // 销毁 websocket 实例对象
         socket = null
         clearInterval(timer)
@@ -155,14 +141,16 @@ const headerStyle = reactive({
 })
 
 watch(()=>store.state.user.curCourseId,(newVal,oldVal)=>{
-    if(typeof(store.state.user.curCourseId)!=undefined&&store.state.user.curCourseId!=""&&socket==null){
-        console.log("新"+newVal);
-        console.log("旧"+oldVal);
-        createWebsocket()
+    if(store.state.user.curCourseId=="undefined"||newVal=="undefined"||newVal==""||store.state.user.curCourseId==""){
+        return;
     }
+    if (socket!==null) {
+        socket.send("close")
+        socket.onclose()
+    }
+    createWebsocket()
 },{
     deep:true,
-    immediate:true
 })
 </script>
 
