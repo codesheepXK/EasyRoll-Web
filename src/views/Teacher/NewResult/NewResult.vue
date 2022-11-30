@@ -28,7 +28,7 @@
 <script setup>
 import PieGraph from './PieGraph.vue'; 
 import CircleGraph from './CircleGraph.vue';
-import {ref,reactive,onMounted,onBeforeUnmount,watch} from 'vue'
+import {ref,reactive,onMounted,onUnmounted,watch} from 'vue'
 import { useStore } from "vuex" 
 import axios from 'axios'
 const store = useStore()
@@ -117,6 +117,7 @@ const createWebsocket=()=>{
         socket.close()
         socket = null
     }
+    init()
     let courseId=store.state.user.curCourseId
     let token=store.state.user.token
     if(typeof(store.state.user.curCourseId)==undefined||courseId==null||courseId==""){
@@ -128,13 +129,13 @@ const createWebsocket=()=>{
     socket.onopen = onOpen
     socket.onmessage = onMessage
     socket.onclose = onClose
-    init()
+
 }
 
 onMounted(() => {
     // createWebsocket()
 })
-onBeforeUnmount(() => {
+onUnmounted(() => {
     if(socket!=null){
         // 关闭连接
         socket.close()
@@ -155,7 +156,8 @@ const headerStyle = reactive({
 
 watch(()=>store.state.user.curCourseId,(newVal,oldVal)=>{
     if(typeof(store.state.user.curCourseId)!=undefined&&store.state.user.curCourseId!=""&&socket==null){
-        console.log("wdqwd");
+        console.log("新"+newVal);
+        console.log("旧"+oldVal);
         createWebsocket()
     }
 },{
