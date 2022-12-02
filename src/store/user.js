@@ -36,7 +36,8 @@ const mutations = {
         localStorage.setItem('role',res.role);
         state.role=res.role
         state.name=res.name
-        if(res.courses!=[]&&('courses' in res)){
+        if(res.courses.length!=0&&('courses' in res)){
+            console.log("lllllll");
             state.courses.splice(0,state.courses.length)
             res.courses.forEach(ele => {
                 state.courses.push(ele)

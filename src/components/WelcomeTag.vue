@@ -1,6 +1,6 @@
 <template>
     <div class="welcome">
-        <el-select v-model="courseIndex"  placeholder="Select" size="large">
+        <el-select v-model="courseIndex"  placeholder="暂无课程" size="large">
             <el-option
                 v-for="item in courses"
                 :key="item.value"
@@ -27,12 +27,15 @@ watch(()=>courseIndex,(newVal,oldVal)=>{
 })
 onMounted(()=>{
     name.value=store.state.user.name
+
     store.state.user.courses.forEach(element => {
         element['label']=element['name']
         element['value']=element['id']
         courses.push(element)
     });
-    courseIndex.value=store.state.user.courses[0].id;
+    if(store.state.user.courses.length!=0){
+        courseIndex.value=store.state.user.courses[0].id;
+    }
 })
 </script>
 

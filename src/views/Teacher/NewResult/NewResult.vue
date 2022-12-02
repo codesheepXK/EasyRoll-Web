@@ -28,25 +28,21 @@
 <script setup>
 import PieGraph from './PieGraph.vue'; 
 import CircleGraph from './CircleGraph.vue';
-import {ref,reactive,onMounted,onUnmounted,watch} from 'vue'
+import {ref,reactive,onUnmounted,watch} from 'vue'
 import { useStore } from "vuex" 
-import axios from 'axios'
 const store = useStore()
 const leaveData= reactive([])//请假名单
 const absenceData = reactive([])//缺课名单
 const currentData=reactive([])//目前点名情况
 const arriveData=reactive([])//出席情况
-//长连接开启函数
-const onOpen = (res)=>{
-    console.log("websocket开启");
-}
+
 const rollNum=ref(0)//总人数
 const isDote =ref(0)//已经点的人数
-let timer=null;
 const attendNum=ref(0)//到课人数
 const absenceNum=ref(0)//缺课人数
 const leaveNum=ref(0)//请假人数
 const lateNum=ref(0)//迟到人数
+let timer=null;//定时器
 
 let socket = null
 const init=()=>{
@@ -58,6 +54,20 @@ const init=()=>{
     absenceNum.value=0
     leaveNum.value=0
     isDote.value=0
+    lateNum.value=0
+    rollNum.value=0
+}
+//长连接开启函数
+const onOpen = (res)=>{
+    console.log("websocket开启");
+}
+const onError=()=>{
+    console.log("websocket发生错误");
+    if (socket!==null) {
+        socket.send("close")
+        socket.onclose()
+    }
+    createWebsocket()
 }
 const onMessage = (res)=>{
     if(res!=null){
@@ -74,7 +84,7 @@ const onMessage = (res)=>{
             })
             currentData.push({value:0,name:"已点名"},{value:rollNum.value,name:"未点名"})
         }
-        if(msg.data.flag==1){
+        if(msg.data.flag=="SINGLE"){
             isDote.value=isDote.value+1;
             if(msg.data.state==0){
                 attendNum.value=attendNum.value+1
@@ -106,8 +116,13 @@ const onMessage = (res)=>{
 const onClose = (res)=>{
     console.log("websocket关闭");
     clearInterval(timer)
+    timer=null
 }
-
+const shake=()=>{
+    timer= setInterval(()=>{
+        socket.send("keep alive")
+    },30000)
+}
 const createWebsocket=()=>{
     init()
     let courseId=store.state.user.curCourseId
@@ -120,6 +135,8 @@ const createWebsocket=()=>{
     socket.onopen = onOpen
     socket.onmessage = onMessage
     socket.onclose = onClose
+    socket.onerror = onError
+    shake()
 }
 onUnmounted(() => {
     if(socket!==null){
